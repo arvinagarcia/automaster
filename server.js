@@ -45,9 +45,9 @@ app.get('/users/dashboard', checkNotAuthenticated, (req, res) => {
 app.get('/users/logout', (req, res) => {
   req.logout(function(err) {
     if (err) { return next(err); }
+    req.flash('success_msg', 'You have logged out.')
     res.redirect('/users/login');   
   })
-  req.flash('success_msg', 'You have logged out.')
 })
 
 app.post('/users/register', async (req, res) => {
@@ -75,7 +75,6 @@ app.post('/users/register', async (req, res) => {
     // Form validation has passed
 
     let hashedPassword = await bcrypt.hash(password, 10)
-    console.log(hashedPassword)
 
     pool.query(
       `SELECT * FROM users
@@ -83,8 +82,6 @@ app.post('/users/register', async (req, res) => {
         if (err) {
           throw err
         }
-
-        console.log(results.rows)
 
         if (results.rows.length > 0) {
           errors.push({ message: 'Email already registered'})
@@ -97,7 +94,6 @@ app.post('/users/register', async (req, res) => {
               if (err) {
                 throw err
               }
-              console.log(results.rows)
               req.flash('success_msg', 'You are now registered. Please log in.')
               res.redirect('/users/login')
             }
@@ -130,5 +126,5 @@ function checkNotAuthenticated(req, res, next) {
 }
 
 app.listen(PORT, () => {
-  console.log(`yoyowazzup running on ${PORT}`)
+  console.log(`Server running on ${PORT}`)
 })
