@@ -6,6 +6,9 @@ const session = require('express-session')
 const flash = require('express-flash')
 const passport = require('passport')
 
+// Serve static files from the 'public' directory
+app.use(express.static(__dirname + '/public'));
+
 const initializePassport = require('./passportConfig')
 
 initializePassport(passport)
