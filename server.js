@@ -56,8 +56,6 @@ app.get('/users/logout', (req, res) => {
 app.post('/users/register', async (req, res) => {
   let { name, email, password, confirmPassword } = req.body
 
-  console.log({ name, email, password, confirmPassword });
-
   let errors = []
 
   if (!name || !email || !password || !confirmPassword) {
