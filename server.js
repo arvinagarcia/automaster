@@ -45,6 +45,10 @@ app.get('/users/dashboard', checkNotAuthenticated, (req, res) => {
   res.render('dashboard', { user: req.user.name})
 })
 
+app.get('/users/cart', checkNotAuthenticated, (req, res) => {
+  res.render('cart', { user: req.user.name})
+})
+
 app.get('/users/logout', (req, res) => {
   req.logout(function(err) {
     if (err) { return next(err); }
@@ -85,7 +89,7 @@ app.post('/users/register', async (req, res) => {
         }
 
         if (results.rows.length > 0) {
-          errors.push({ message: 'Email already registered'})
+          errors.push({ message: 'Email already registered.'})
           res.render('register', { errors })
         } else {
           pool.query(
