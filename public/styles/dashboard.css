@@ -2,6 +2,8 @@ body {
   padding: 0px;
 }
 
+/* --- START Navigation Bar --- */
+
 nav {
   /* background-color: blue; */
   display: flex;
@@ -77,9 +79,43 @@ nav .right .profile-icon {
   stroke: #000000;
 }
 
+/* --- END Navigation Bar --- */
+/* --- START Product List --- */
+
 main {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
+.product-list-heading {
+  font-size: 30px;
+}
+
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 16px;
+}
+
+.product-img-container {
+  /* width: 200px; */
+  height: 300px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+}
+
+.product-name {
+  font-size: 14px;
+}
+
+.product-price {
+  font-weight: 700;
+  font-size: 20px;
+}
+
+/* --- END Product List --- */
 
 @media screen and (min-width: 720px) {
   nav .left h2 {
