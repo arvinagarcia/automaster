@@ -83,7 +83,7 @@ nav .right .profile-icon {
 /* --- START Product List --- */
 
 main {
-  padding: 20px;
+  padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -96,7 +96,7 @@ main {
 .product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 16px;
+  grid-gap: 20px;
 }
 
 .product-img-container {
