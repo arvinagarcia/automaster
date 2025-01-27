@@ -81,3 +81,118 @@ h6 {
 #__next {
   isolation: isolate;
 }
+
+a {
+  text-decoration: none;
+}
+
+/* --- START Sidebar Popup --- */
+
+.overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100%;
+  background: white;
+  transition: right 0.3s ease-in-out;
+  z-index: 101;
+}
+
+.sidebar.active {
+  right: 0;
+}
+
+.overlay.active {
+  display: block;
+}
+
+.sidebar .top-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: blue; */
+}
+
+.sidebar .back-icon {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.sidebar .profile-details-container {
+  /* background-color: lightyellow; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.profile-detail .top {
+  /* background-color: lightgoldenrodyellow; */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.profile-detail .top svg {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.profile-detail .bottom {
+  background-color: #f0f0f0;
+  color: #c4c4c4;
+  padding: 12px;
+  border-radius: 10px;
+}
+
+.log-out-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  align-self: flex-start;
+  padding: 4px 8px 4px 6px;
+  border-radius: 8px;
+  /* background-color: lightpink; */
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.log-out-container:hover {
+  background-color: #f0f0f0;
+}
+
+.log-out-container svg {
+  width: 18px;
+  height: 18px;
+}
+
+.log-out-container a {
+  color: #000000;
+  cursor: pointer;
+}
+
+/* --- END Sidebar Popup --- */

@@ -83,7 +83,7 @@ nav .right .profile-icon {
 /* --- START Product List --- */
 
 main {
-  padding: 32px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 8px;
