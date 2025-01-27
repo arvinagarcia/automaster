@@ -49,6 +49,10 @@ app.get('/users/cart', checkNotAuthenticated, (req, res) => {
   res.render('cart', { user: req.user.name})
 })
 
+app.get('/users/product', checkNotAuthenticated, (req, res) => {
+  res.render('product', { user: req.user.name})
+})
+
 app.get('/users/logout', (req, res) => {
   req.logout(function(err) {
     if (err) { return next(err); }
