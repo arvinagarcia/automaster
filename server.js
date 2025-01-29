@@ -42,15 +42,15 @@ app.get('/users/login', checkAuthenticated, (req, res) => {
 })
 
 app.get('/users/dashboard', checkNotAuthenticated, (req, res) => {
-  res.render('dashboard', { user: req.user.name})
+  res.render('dashboard', { user: req.user.name, email: req.user.email})
 })
 
 app.get('/users/cart', checkNotAuthenticated, (req, res) => {
-  res.render('cart', { user: req.user.name})
+  res.render('cart', { user: req.user.name, email: req.user.email})
 })
 
 app.get('/users/product', checkNotAuthenticated, (req, res) => {
-  res.render('product', { user: req.user.name})
+  res.render('product', { user: req.user.name, email: req.user.email})
 })
 
 app.get('/users/logout', (req, res) => {
