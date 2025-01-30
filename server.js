@@ -6,7 +6,7 @@ const session = require('express-session')
 const flash = require('express-flash')
 const passport = require('passport')
 
-// Serve static files from the 'public' directory
+// Serve static files from 'public' directory
 app.use(express.static(__dirname + '/public'));
 
 const initializePassport = require('./passportConfig')
@@ -42,20 +42,21 @@ app.get('/users/login', checkAuthenticated, (req, res) => {
 })
 
 app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
-  const result = await pool.query('SELECT * FROM products');
-  const firstProductName = result.rows[0]?.name || 'No products found';
-  const firstProductPrice = result.rows.length > 0 
-  ? Number(result.rows[0].price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) 
-  : '0.00';
-  const firstProductImage = result.rows[0]?.image_path || 'No products found';
-  const secondProductName = result.rows[1]?.name || 'No products found';
-  const secondProductPrice = result.rows.length > 0 
-  ? Number(result.rows[1].price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) 
-  : '0.00';
-  const secondProductImage = result.rows[1]?.image_path || 'No products found';
+  try {
+    const result = await pool.query('SELECT * FROM products');
+    
+    // Format prices
+    const products = result.rows.map(product => ({
+      ...product,
+      price: Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    }));
 
-  res.render('dashboard', { user: req.user.name, email: req.user.email, secondProductName, secondProductPrice, secondProductImage, firstProductName, firstProductPrice, firstProductImage})
-})
+    res.render('dashboard', { user: req.user.name, email: req.user.email, products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
 
 app.get('/users/cart', checkNotAuthenticated, (req, res) => {
   res.render('cart', { user: req.user.name, email: req.user.email})
@@ -93,8 +94,7 @@ app.post('/users/register', async (req, res) => {
   if (errors.length > 0) {
     res.render('register', { errors })
   } else {
-    // Form validation has passed
-
+    // Form validation passed
     let hashedPassword = await bcrypt.hash(password, 10)
 
     pool.query(

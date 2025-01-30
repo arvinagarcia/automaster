@@ -91,29 +91,20 @@
     <h1 class="product-list-heading">Product List</h1>
     <div class="product-list">
 
-      <a href="/users/product">
-        <div class="product">
-          <div class="product-img-container">
-            <img src="<%= firstProductImage %>">
+      <!-- Loop through products database -->
+      <% products.forEach(product => { %>
+        <a href="/users/product">
+          <div class="product">
+            <div class="product-img-container">
+              <img src="<%= product.image_path %>">
+            </div>
+            <div>
+              <p class="product-name"><%= product.name %></p>
+              <p class="product-price">₱<%= product.price %></p>
+            </div>
           </div>
-          <div>
-            <p class="product-name"><%= firstProductName %></p>
-            <p class="product-price">₱<%= firstProductPrice %></p>
-          </div>
-        </div>
-      </a>
-
-      <a href="/users/product">
-        <div class="product">
-          <div class="product-img-container">
-            <img src="<%= secondProductImage %>">
-          </div>
-          <div>
-            <p class="product-name"><%= secondProductName %></p>
-            <p class="product-price">₱<%= secondProductPrice %></p>
-          </div>
-        </div>
-      </a>
+        </a>
+      <% }) %>
 
     </div>
   </main>
