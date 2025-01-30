@@ -41,8 +41,20 @@ app.get('/users/login', checkAuthenticated, (req, res) => {
   res.render('login')
 })
 
-app.get('/users/dashboard', checkNotAuthenticated, (req, res) => {
-  res.render('dashboard', { user: req.user.name, email: req.user.email})
+app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
+  const result = await pool.query('SELECT * FROM products');
+  const firstProductName = result.rows[0]?.name || 'No products found';
+  const firstProductPrice = result.rows.length > 0 
+  ? Number(result.rows[0].price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) 
+  : '0.00';
+  const firstProductImage = result.rows[0]?.image_path || 'No products found';
+  const secondProductName = result.rows[1]?.name || 'No products found';
+  const secondProductPrice = result.rows.length > 0 
+  ? Number(result.rows[1].price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) 
+  : '0.00';
+  const secondProductImage = result.rows[1]?.image_path || 'No products found';
+
+  res.render('dashboard', { user: req.user.name, email: req.user.email, secondProductName, secondProductPrice, secondProductImage, firstProductName, firstProductPrice, firstProductImage})
 })
 
 app.get('/users/cart', checkNotAuthenticated, (req, res) => {
