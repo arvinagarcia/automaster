@@ -86,6 +86,62 @@ app.get('/users/cart', async (req, res) => {
   }
 });
 
+
+
+app.post('/cart/add', async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/users/login'); // Ensure user is logged in
+    }
+
+    const { product_id } = req.body;
+    const user_id = req.user.id;
+    const quantity = 1; // Always add 1
+
+    if (!product_id || isNaN(product_id)) {
+      req.flash('error_msg', 'Invalid product selection.');
+      return res.redirect('/products'); // Redirect back to product list
+    }
+
+    // Check if user has a cart
+    let cartResult = await pool.query(
+      'SELECT id FROM carts WHERE user_id = $1',
+      [user_id]
+    );
+
+    let cart_id;
+    if (cartResult.rows.length === 0) {
+      // Create a new cart if user has none
+      const newCart = await pool.query(
+        'INSERT INTO carts (user_id) VALUES ($1) RETURNING id',
+        [user_id]
+      );
+      cart_id = newCart.rows[0].id;
+    } else {
+      cart_id = cartResult.rows[0].id;
+    }
+
+    // Add product to cart or increase quantity if it already exists
+    await pool.query(
+      `INSERT INTO cart_items (cart_id, product_id, quantity)
+      VALUES ($1, $2, $3)
+      ON CONFLICT (cart_id, product_id) 
+      DO UPDATE SET quantity = cart_items.quantity + EXCLUDED.quantity`,
+      [cart_id, product_id, quantity]
+    );
+
+    req.flash('success_msg', 'Product added to cart!');
+    res.redirect('/users/cart'); // Redirect to the cart page
+  } catch (err) {
+    console.error("🚨 Error adding to cart:", err);
+    res.status(500).send('Server Error');
+  }
+});
+
+
+
+
+
 app.post('/cart/update', async (req, res) => {
   console.log("🚨 Received form data:", req.body);
 

@@ -93,16 +93,21 @@
       </div>
       <div class="product-top">
         <h2 class="product-name"><%= product.name %></h2>
-        <h1 class="product-price">₱<%= product.price %></h1>
+        <h1 class="product-price">
+          ₱<%= product.price %>
+        </h1>
       </div>
       <div class="product-details">
-        <p class="product-description">
-          <p class="product-description"><%= product.description %></p>
-        </p>
+        <p class="product-description"><%= product.description %></p>
       </div>
     </div>
-    <button class="add-to-cart-btn">Add To Cart</button>
+  
+    <form action="/cart/add" method="POST">
+      <input type="hidden" name="product_id" value="<%= product.id %>">
+      <button type="submit" class="add-to-cart-btn">Add To Cart</button>
+    </form>
   </main>
+  
 
 </body>
 </html>

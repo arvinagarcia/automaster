@@ -261,6 +261,10 @@ main {
   opacity: 0.85;
 }
 
+.empty {
+  font-size: 14px;
+}
+
 /* --- END Cart Products --- */
 /* --- START Cart Modal --- */
 

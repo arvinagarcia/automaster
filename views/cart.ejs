@@ -125,7 +125,7 @@
           </div>
         <% }) %>        
       <% } else { %>
-        <p>Your cart is empty.</p>
+        <p class="empty">Your cart is empty.</p>
       <% } %>
     </div>
   
@@ -137,12 +137,20 @@
         </div>
         <div class="delivery-fee">
           <p>Delivery Fee:</p>
-          <p>₱50.00</p>
+          <p>
+            ₱<%= cartItems.length > 0 ? "50.00" : "0.00" %>
+          </p>
         </div>
         <div class="total">
           <p>Total:</p>
-          <p>₱<%= (cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) + 50).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
+          <p>
+            ₱<%= (
+              cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) 
+              + (cartItems.length > 0 ? 50 : 0)
+            ).toLocaleString('en-US', { minimumFractionDigits: 2 }) %>
+          </p>
         </div>
+        
       </div>
       <button class="checkout-btn">Checkout</button>
     </div>
