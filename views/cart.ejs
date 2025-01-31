@@ -92,102 +92,48 @@
       <p>We noticed you have K&N Air Filter in your cart. Perhaps you’d like LED Headlight Bulbs for ₱1,500.00 to go along with it?</p>
     </div>
     <div class="products">
-      
-      <div class="product">
-        <div class="product-img">
-          <img src="/static/images/quaranta-alloy-wheel.png">
-        </div>
-        <div class="product-details">
-          <div class="top">
-            <p class="product-name">NGK Iridium Spark Plug</p>
-            <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>          
-          </div>
-          <div class="bottom">
-            <p class="product-price">₱250.00</p>
-            <div class="product-counter">
-              <div class="product-decrease">-</div>
-              <p class="product-count">1</p>
-              <div class="product-increase">+</div>
+      <% if (cartItems.length > 0) { %>
+        <% cartItems.forEach(item => { %>
+          <div class="product">
+            <div class="product-img">
+              <img src="<%= item.image_path %>">
+            </div>
+            <div class="product-details">
+              <div class="top">
+                <p class="product-name"><%= item.name %></p>
+                <form action="/cart/remove" method="POST">
+                  <input type="hidden" name="product_id" value="<%= item.product_id ? item.product_id : '' %>">
+                  <button type="submit" class="x-icon">x</button>
+                </form>
+              </div>
+              <!-- <p>Debug: product_id = <%= item.product_id %></p> -->
+              <div class="bottom">
+                <p class="product-price">₱<%= Number(item.price).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
+                <div class="product-counter">
+                  <form action="/cart/update" method="POST">
+                    <input type="hidden" name="product_id" value="<%= item.product_id %>">
+                    <button type="submit" name="action" value="decrease" class="product-decrease">-</button>
+                  </form>
+                  <p class="product-count"><%= item.quantity %></p>
+                  <form action="/cart/update" method="POST">
+                    <input type="hidden" name="product_id" value="<%= item.product_id %>">
+                    <button type="submit" name="action" value="increase" class="product-increase">+</button>
+                  </form>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-      
-      <div class="product">
-        <div class="product-img">
-          <img src="/static/images/quaranta-alloy-wheel.png">
-        </div>
-        <div class="product-details">
-          <div class="top">
-            <p class="product-name">NGK Iridium Spark Plug</p>
-            <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>          
-          </div>
-          <div class="bottom">
-            <p class="product-price">₱250.00</p>
-            <div class="product-counter">
-              <div class="product-decrease">-</div>
-              <p class="product-count">1</p>
-              <div class="product-increase">+</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="product">
-        <div class="product-img">
-          <img src="/static/images/quaranta-alloy-wheel.png">
-        </div>
-        <div class="product-details">
-          <div class="top">
-            <p class="product-name">NGK Iridium Spark Plug</p>
-            <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>          
-          </div>
-          <div class="bottom">
-            <p class="product-price">₱250.00</p>
-            <div class="product-counter">
-              <div class="product-decrease">-</div>
-              <p class="product-count">1</p>
-              <div class="product-increase">+</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <div class="product">
-        <div class="product-img">
-          <img src="/static/images/quaranta-alloy-wheel.png">
-        </div>
-        <div class="product-details">
-          <div class="top">
-            <p class="product-name">NGK Iridium Spark Plug</p>
-            <svg class="x-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-            </svg>          
-          </div>
-          <div class="bottom">
-            <p class="product-price">₱250.00</p>
-            <div class="product-counter">
-              <div class="product-decrease">-</div>
-              <p class="product-count">1</p>
-              <div class="product-increase">+</div>
-            </div>
-          </div>
-        </div>
-      </div>
-
+        <% }) %>        
+      <% } else { %>
+        <p>Your cart is empty.</p>
+      <% } %>
     </div>
-
+  
     <div class="payment-container">
       <div class="payment-details">
         <div class="subtotal">
           <p>Subtotal:</p>
-          <p>₱5,350.00</p>
+          <p>₱<%= cartItems.reduce((total, item) => total + (item.price * item.quantity), 0).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
         </div>
         <div class="delivery-fee">
           <p>Delivery Fee:</p>
@@ -195,12 +141,14 @@
         </div>
         <div class="total">
           <p>Total:</p>
-          <p>₱5,400.00</p>
+          <p>₱<%= (cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) + 50).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
         </div>
       </div>
       <button class="checkout-btn">Checkout</button>
     </div>
   </main>
+  
+
   <div id="confirmationModal" class="modal">
     <div class="modal-content">
         <p>Are you sure you want to purchase the items in your cart?</p>

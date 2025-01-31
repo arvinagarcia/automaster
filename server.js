@@ -58,9 +58,101 @@ app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
   }
 });
 
-app.get('/users/cart', checkNotAuthenticated, (req, res) => {
-  res.render('cart', { user: req.user.name, email: req.user.email})
-})
+app.get('/users/cart', async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/users/login');
+    }
+
+    const user_id = req.user.id;
+
+    // Fetch cart items with product details
+    const result = await pool.query(
+      `SELECT products.id AS product_id, products.name, products.price, products.image_path, cart_items.quantity 
+      FROM cart_items
+      JOIN carts ON cart_items.cart_id = carts.id
+      JOIN products ON cart_items.product_id = products.id
+      WHERE carts.user_id = $1
+      ORDER BY cart_items.id ASC`,
+      [user_id]
+    );
+
+    console.log("🚀 Cart Items Fetched:", result.rows); // Debugging log
+
+    res.render('cart', { user: req.user.name, email: req.user.email, cartItems: result.rows });
+  } catch (err) {
+    console.error("🚨 Error fetching cart items:", err);
+    res.status(500).send('Server Error');
+  }
+});
+
+app.post('/cart/update', async (req, res) => {
+  console.log("🚨 Received form data:", req.body);
+
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/users/login');
+    }
+
+    const product_id = parseInt(req.body.product_id, 10); // Convert to integer
+    const action = req.body.action;
+    const user_id = req.user.id;
+
+    if (!product_id || isNaN(product_id)) {
+      console.log("🚨 Error: product_id is missing or not a number", product_id);
+      return res.status(400).send("Invalid product ID");
+    }
+
+    let query = '';
+    if (action === "increase") {
+      query = `UPDATE cart_items 
+               SET quantity = quantity + 1 
+               WHERE product_id = $1 
+               AND cart_id = (SELECT id FROM carts WHERE user_id = $2)`;
+    } else if (action === "decrease") {
+      query = `UPDATE cart_items 
+               SET quantity = GREATEST(quantity - 1, 1) 
+               WHERE product_id = $1 
+               AND cart_id = (SELECT id FROM carts WHERE user_id = $2)`;
+    }
+
+    await pool.query(query, [product_id, user_id]);
+    res.redirect('/users/cart');
+  } catch (err) {
+    console.error("🚨 Error updating quantity:", err);
+    res.status(500).send('Server Error');
+  }
+});
+
+app.post('/cart/remove', async (req, res) => {
+  console.log("🚨 Received form data:", req.body);
+
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/users/login');
+    }
+
+    const product_id = parseInt(req.body.product_id, 10); // Convert to integer
+    const user_id = req.user.id;
+
+    if (!product_id || isNaN(product_id)) {
+      console.log("🚨 Error: product_id is missing or not a number", product_id);
+      return res.status(400).send("Invalid product ID");
+    }
+
+    await pool.query(
+      `DELETE FROM cart_items 
+      WHERE product_id = $1 
+      AND cart_id = (SELECT id FROM carts WHERE user_id = $2)`,
+      [product_id, user_id]
+    );
+
+    res.redirect('/users/cart');
+  } catch (err) {
+    console.error("🚨 Error removing product:", err);
+    res.status(500).send('Server Error');
+  }
+});
 
 app.get('/users/product/:id', checkNotAuthenticated, async (req, res) => {
   try {
