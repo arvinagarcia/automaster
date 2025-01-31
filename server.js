@@ -43,9 +43,9 @@ app.get('/users/login', checkAuthenticated, (req, res) => {
 
 app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM products');
+    const result = await pool.query('SELECT * FROM products ORDER BY id');
     
-    // Format prices
+    // Format price
     const products = result.rows.map(product => ({
       ...product,
       price: Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
@@ -62,9 +62,29 @@ app.get('/users/cart', checkNotAuthenticated, (req, res) => {
   res.render('cart', { user: req.user.name, email: req.user.email})
 })
 
-app.get('/users/product', checkNotAuthenticated, (req, res) => {
-  res.render('product', { user: req.user.name, email: req.user.email})
-})
+app.get('/users/product/:id', checkNotAuthenticated, async (req, res) => {
+  try {
+    // Get product ID from URL
+    const productId = req.params.id;
+
+    const result = await pool.query('SELECT * FROM products WHERE id = $1', [productId]);
+
+    if (result.rows.length === 0) {
+      return res.status(404).send('Product not found');
+    }
+
+    const product = result.rows[0];
+
+    // Format price
+    product.price = Number(product.price).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+    res.render('product', { product, user: req.user.name, email: req.user.email });
+    
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
+});
 
 app.get('/users/logout', (req, res) => {
   req.logout(function(err) {

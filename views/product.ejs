@@ -89,23 +89,15 @@
   <main>
     <div class="top-main">
       <div class="product-img">
-        <img src="/static/images/quaranta-alloy-wheel.png">
+        <img src="<%= product.image_path %>">
       </div>
       <div class="product-top">
-        <h2 class="product-name">NGK Iridium Spark Plug</h2>
-        <h1 class="product-price">₱250.00</h1>
+        <h2 class="product-name"><%= product.name %></h2>
+        <h1 class="product-price">₱<%= product.price %></h1>
       </div>
       <div class="product-details">
         <p class="product-description">
-          Enhance your engine's performance and fuel efficiency 
-          with NGK Iridium spark plugs. These high-performance 
-          plugs feature an iridium center electrode for superior 
-          ignition and longer lifespan, resulting in smoother engine 
-          operation and improved fuel economy.
-          <br><br>
-          Enjoy clear visibility in any weather condition with Bosch wiper blades. 
-          Made with premium rubber and a unique spoiler design, these blades ensure smooth and quiet operation, 
-          effectively clearing rain, snow, and debris from your windshield for enhanced safety.
+          <p class="product-description"><%= product.description %></p>
         </p>
       </div>
     </div>

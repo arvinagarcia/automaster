@@ -93,7 +93,7 @@
 
       <!-- Loop through products database -->
       <% products.forEach(product => { %>
-        <a href="/users/product">
+        <a href="/users/product/<%= product.id %>">
           <div class="product">
             <div class="product-img-container">
               <img src="<%= product.image_path %>">
