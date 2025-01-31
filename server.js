@@ -210,6 +210,33 @@ app.post('/cart/remove', async (req, res) => {
   }
 });
 
+
+app.post('/cart/clear', async (req, res) => {
+  try {
+    if (!req.isAuthenticated()) {
+      return res.redirect('/users/login');
+    }
+
+    const user_id = req.user.id;
+
+    // Delete all items from the user's cart
+    await pool.query(
+      `DELETE FROM cart_items 
+      WHERE cart_id = (SELECT id FROM carts WHERE user_id = $1)`,
+      [user_id]
+    );
+
+    res.redirect('/users/cart'); // Redirect to an empty cart page
+  } catch (err) {
+    console.error("🚨 Error clearing cart:", err);
+    res.status(500).send("Server Error");
+  }
+});
+
+
+
+
+
 app.get('/users/product/:id', checkNotAuthenticated, async (req, res) => {
   try {
     // Get product ID from URL

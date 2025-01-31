@@ -359,6 +359,10 @@ main {
   gap: 40px;
 }
 
+.modal-content form {
+  width: 100%;
+}
+
 .continue-shopping-btn {
   display: flex;
   justify-content: center;
@@ -369,8 +373,10 @@ main {
   background-color: #ff2c2c;
   color: white;
   text-decoration: none;
+  border: none;
   border-radius: 10px;
   width: 100%;
+  cursor: pointer;
   transition: opacity 0.3s;
 }
 

@@ -167,42 +167,41 @@
     </div>
   </div>
   <div id="thankYouModal" class="modal">
-      <div class="modal-content">
-          <p class="thank-you-msg">Thank you for your purchase!</p>
-          <div class="details">
-            <div class="order">
-              <div class="order-date">
-                <p class="order-date-name">Order Date:</p>
-                <p class="order-date-value">Jan. 23, 2025</p>
-              </div>
-              <div class="order-total">
-                <p class="order-total-name">Order Total:</p>
-                <p class="order-total-value">₱5,400.00</p>
-              </div>
-              <div class="order-total"></div>
-            </div>
-            <div class="item-list">
-              <p class="items-title">Items:</p>
-              <div class="item">
-                <p>NGK Iridium Spark Plug (1)</p>
-                <p>₱250.00</p>
-              </div>
-              <div class="item">
-                <p>Bosch Wiper Blades (2)</p>
-                <p>₱700.00</p>
-              </div>
-              <div class="item">
-                <p>K&N Air Filter (1)</p>
-                <p>₱1,200.00</p>
-              </div>
-              <div class="item">
-                <p>ACDelco Battery (1)</p>
-                <p>₱3,200.00</p>
-              </div>
-            </div>
+    <div class="modal-content">
+      <p class="thank-you-msg">Thank you for your purchase!</p>
+      <div class="details">
+        <div class="order">
+          <div class="order-date">
+            <p class="order-date-name">Order Date:</p>
+            <p class="order-date-value">
+              <%= new Date().toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" }) %>
+            </p>
           </div>
-          <a href="/users/dashboard" class="continue-shopping-btn">Continue Shopping</a>
+          <div class="order-total">
+            <p class="order-total-name">Order Total:</p>
+            <p class="order-total-value">
+              ₱<%= (
+                cartItems.reduce((total, item) => total + (item.price * item.quantity), 0) 
+                + (cartItems.length > 0 ? 50 : 0) 
+              ).toLocaleString('en-US', { minimumFractionDigits: 2 }) %>
+            </p>            
+          </div>
+        </div>
+        <div class="item-list">
+          <p class="items-title">Items:</p>
+          <% cartItems.forEach(item => { %>
+            <div class="item">
+              <p><%= item.name %> (<%= item.quantity %>)</p>
+              <p>₱<%= (item.price * item.quantity).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
+            </div>
+          <% }) %>
+        </div>
       </div>
+      <form action="/cart/clear" method="POST">
+        <button type="submit" class="continue-shopping-btn">Continue Shopping</button>
+      </form>
+    </div>
   </div>
+  
 </body>
 </html>
