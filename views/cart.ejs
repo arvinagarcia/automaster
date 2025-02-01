@@ -152,7 +152,7 @@
         </div>
         
       </div>
-      <button class="checkout-btn">Checkout</button>
+      <button class="checkout-btn" <%= cartItems.length === 0 ? "disabled" : "" %>>Checkout</button>
     </div>
   </main>
   

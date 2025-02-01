@@ -261,6 +261,13 @@ main {
   opacity: 0.85;
 }
 
+.checkout-btn:disabled {
+  background-color: #f0f0f0;
+  color: #c4c4c4;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .empty {
   font-size: 14px;
 }
