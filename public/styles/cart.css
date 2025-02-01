@@ -93,16 +93,33 @@ main {
 }
 
 .ai-recommendation {
-  background-color: #000000;
+  background-color: #1a1a1a;
   color: #ffffff;
   padding: 16px;
   border-radius: 10px;
   font-size: 14px;
+  /* cursor: pointer; */
+  /* transition: opacity 0.3s; */
+}
+
+/* .ai-recommendation:hover {
+  opacity: 0.85;
+} */
+
+.recommended-link {
+  margin: 0 8px 0 4px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #ff2c2c;
+  color: #ffffff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
   transition: opacity 0.3s;
 }
 
-.ai-recommendation:hover {
+.recommended-link:hover {
   opacity: 0.85;
 }
 

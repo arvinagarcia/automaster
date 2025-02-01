@@ -92,7 +92,10 @@
       <div class="ai-recommendation">
         <p>
           We noticed you have <strong><%= correlatedName %></strong> in your cart.  
-          Perhaps you’d like to buy <strong><%= recommendedProduct.name %></strong>  
+          Perhaps you’d like to buy 
+          <a href="/users/product/<%= recommendedProduct.id %>" class="recommended-link">
+            <strong><%= recommendedProduct.name %></strong>
+          </a> 
           for ₱<%= Number(recommendedProduct.price).toLocaleString('en-US', { minimumFractionDigits: 2 }) %>?  
           <br><br> <em>Why? <%= reason %></em>
         </p>
