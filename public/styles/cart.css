@@ -102,24 +102,32 @@ main {
   /* transition: opacity 0.3s; */
 }
 
-/* .ai-recommendation:hover {
-  opacity: 0.85;
-} */
+.ai-recommendation p {
+  font-size: 14px;
+  margin-top: -20px;
+}
 
-.recommended-link {
-  margin: 0 8px 0 4px;
-  text-align: center;
-  text-decoration: none;
+.ai-logo {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
   background-color: #ff2c2c;
-  color: #ffffff;
-  padding: 6px 12px;
   border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  border-radius: 20px;
+  fill: #ffffff;
+  position: relative;
+  top: -28px;
+  left: -28px;
+}
+
+main a {
+  text-decoration: underline;
+  color: #ff2c2c;
+  margin: 0 4px 0 2px;
   transition: opacity 0.3s;
 }
 
-.recommended-link:hover {
+main a:hover {
   opacity: 0.85;
 }
 
