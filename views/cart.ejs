@@ -88,9 +88,18 @@
   </nav>
 
   <main>
-    <div class="ai-recommendation">
-      <p>We noticed you have K&N Air Filter in your cart. Perhaps you’d like LED Headlight Bulbs for ₱1,500.00 to go along with it?</p>
-    </div>
+    <% if (recommendedProduct && correlatedName && reason) { %>
+      <div class="ai-recommendation">
+        <p>
+          We noticed you have <strong><%= correlatedName %></strong> in your cart.  
+          Perhaps you’d like to buy <strong><%= recommendedProduct.name %></strong>  
+          for ₱<%= Number(recommendedProduct.price).toLocaleString('en-US', { minimumFractionDigits: 2 }) %>?  
+          <br><br> <em>Why? <%= reason %></em>
+        </p>
+      </div>
+    <% } %>
+    
+    
     <div class="products">
       <% if (cartItems.length > 0) { %>
         <% cartItems.forEach(item => { %>
@@ -106,7 +115,6 @@
                   <button type="submit" class="x-icon">x</button>
                 </form>
               </div>
-              <!-- <p>Debug: product_id = <%= item.product_id %></p> -->
               <div class="bottom">
                 <p class="product-price">₱<%= Number(item.price).toLocaleString('en-US', { minimumFractionDigits: 2 }) %></p>
                 <div class="product-counter">

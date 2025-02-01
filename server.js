@@ -5,6 +5,10 @@ const bcrypt = require('bcrypt')
 const session = require('express-session')
 const flash = require('express-flash')
 const passport = require('passport')
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+
+// Initialize Gemini API
+const genAI = new GoogleGenerativeAI("AIzaSyDIz49jDIrXUc5m5CwSVgvIpoT4Xotxlck"); // Replace with your actual key
 
 // Serve static files from 'public' directory
 app.use(express.static(__dirname + '/public'));
@@ -58,6 +62,8 @@ app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
   }
 });
 
+
+
 app.get('/users/cart', async (req, res) => {
   try {
     if (!req.isAuthenticated()) {
@@ -66,8 +72,8 @@ app.get('/users/cart', async (req, res) => {
 
     const user_id = req.user.id;
 
-    // Fetch cart items with product details
-    const result = await pool.query(
+    // Fetch cart items
+    const cartItemsQuery = await pool.query(
       `SELECT products.id AS product_id, products.name, products.price, products.image_path, cart_items.quantity 
       FROM cart_items
       JOIN carts ON cart_items.cart_id = carts.id
@@ -77,14 +83,87 @@ app.get('/users/cart', async (req, res) => {
       [user_id]
     );
 
-    console.log("🚀 Cart Items Fetched:", result.rows); // Debugging log
+    const cartItems = cartItemsQuery.rows;
 
-    res.render('cart', { user: req.user.name, email: req.user.email, cartItems: result.rows });
+    // Get all products
+    const allProductsQuery = await pool.query(`SELECT * FROM products`);
+    const allProducts = allProductsQuery.rows;
+
+    let recommendedProduct = null;
+    let correlatedName = null;
+    let reason = null;
+
+    if (cartItems.length > 0) {
+      // Prepare AI prompt
+      const productNames = cartItems.map(item => item.name).join(", ");
+      const availableProductNames = allProducts.map(p => p.name).join(", ");
+
+      const prompt = `
+      The user has ONLY the following items in their cart: ${productNames}.  
+      Do NOT assume they have any other items.  
+    
+      Based on these cart items, recommend ONE product from this list: ${availableProductNames}.  
+      The recommended product **must** be in the available products list and should logically complement  
+      one of the cart items.  
+    
+      Provide your response in this exact format:  
+      - Recommended Product: [Product Name]  
+      - Correlated With: [Product Name from Cart]  
+      - Reason: [One brief sentence explaining why they go together]  
+    `;    
+
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const response = await model.generateContent(prompt);
+      
+      const aiText = response.response.candidates[0].content.parts[0].text.trim();
+      
+      // Extracting details
+      const recommendedMatch = aiText.match(/Recommended Product: (.+)/);
+      const correlatedMatch = aiText.match(/Correlated With: (.+)/);
+      const reasonMatch = aiText.match(/Reason: (.+)/);
+      
+      const recommendedName = recommendedMatch && allProducts.some(p => p.name === recommendedMatch[1]) 
+      ? recommendedMatch[1] 
+      : null;
+    
+    correlatedName = correlatedMatch ? correlatedMatch[1] : null;
+    reason = reasonMatch ? reasonMatch[1] : "This product complements your purchase."; // Default reason
+    
+    // Ensure recommended product exists in the database
+    recommendedProduct = recommendedName ? allProducts.find(p => p.name === recommendedName) : null;
+    
+    if (!recommendedProduct) {
+      console.warn("⚠️ AI failed to find a matching recommendation. Selecting a random relevant product...");
+      const availableProducts = allProducts.filter(p => 
+        !cartItems.some(cartItem => cartItem.product_id === p.id)
+      );
+      recommendedProduct = availableProducts.length > 0 
+        ? availableProducts[Math.floor(Math.random() * availableProducts.length)]
+        : null;
+      correlatedName = "a related item";
+      reason = "This product is frequently bought with similar items.";
+    }
+    
+    }
+
+    res.render('cart', { 
+      user: req.user.name, 
+      email: req.user.email, 
+      cartItems, 
+      recommendedProduct,
+      correlatedName,
+      reason
+    });
+
   } catch (err) {
-    console.error("🚨 Error fetching cart items:", err);
+    console.error("🚨 Error fetching cart:", err);
     res.status(500).send('Server Error');
   }
 });
+
+
+
+
 
 
 
