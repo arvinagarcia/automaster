@@ -94,6 +94,11 @@ main {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  transition-duration: 0.3s;
+}
+
+.product:hover {
+  transform: scale(1.02);
 }
 
 .product-list-heading {

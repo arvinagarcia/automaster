@@ -104,7 +104,8 @@ app.get('/users/cart', async (req, res) => {
     
       Based on these cart items, recommend ONE product from this list: ${availableProductNames}.  
       The recommended product **must** be in the available products list and should logically complement  
-      one of the cart items.  
+      one of the cart items. The recommended product MUST NOT be the same as one of the cart items (e.g. 
+      if there is a Gear Stick as a cart item, a Gear Stick MUST NOT be recommended). 
     
       Provide your response in this exact format:  
       - Recommended Product: [Product Name]  

@@ -85,6 +85,11 @@ input::placeholder {
   color: #ffffff;
   border: none;
   border-radius: 10px;
+  transition: opacity 0.3s;
+}
+
+.bottom input:hover {
+  opacity: 0.85;
 }
 
 input[type="submit"] {
