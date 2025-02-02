@@ -5,10 +5,11 @@ const bcrypt = require('bcrypt')
 const session = require('express-session')
 const flash = require('express-flash')
 const passport = require('passport')
+require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // Initialize Gemini API
-const genAI = new GoogleGenerativeAI("AIzaSyDIz49jDIrXUc5m5CwSVgvIpoT4Xotxlck"); // Replace with your actual key
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Serve static files from 'public' directory
 app.use(express.static(__dirname + '/public'));

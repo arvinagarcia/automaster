@@ -121,6 +121,11 @@ main {
   align-items: center;
 }
 
+.product-img-container img {
+  width: 100%;
+  max-width: 260px;
+}
+
 .product-name {
   font-size: 14px;
 }
