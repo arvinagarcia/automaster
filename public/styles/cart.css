@@ -1,5 +1,8 @@
 body {
   padding: 0px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 /* --- START Navigation Bar --- */
@@ -87,8 +90,9 @@ main {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  gap: 20px;
+  justify-content: space-between;
   max-width: 800px;
+  flex-grow: 1;
   /* background-color: yellow; */
 }
 
@@ -129,6 +133,12 @@ main a {
 
 main a:hover {
   opacity: 0.85;
+}
+
+.main-top {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .products {
@@ -271,6 +281,7 @@ main a:hover {
 }
 
 .checkout-btn {
+  margin-top: 20px;
   background-color: #ff2c2c;
   color: white;
   font-size: 14px;
