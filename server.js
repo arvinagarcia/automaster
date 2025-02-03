@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express')
 const app = express()
 const { pool } = require('./dbConfig')
@@ -5,17 +6,13 @@ const bcrypt = require('bcrypt')
 const session = require('express-session')
 const flash = require('express-flash')
 const passport = require('passport')
-require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
-// Initialize Gemini API
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// Serve static files from 'public' directory
 app.use(express.static(__dirname + '/public'));
 
 const initializePassport = require('./passportConfig')
-
 initializePassport(passport)
 
 const PORT = process.env.port || 4000
@@ -57,13 +54,12 @@ app.get('/users/dashboard', checkNotAuthenticated, async (req, res) => {
     }));
 
     res.render('dashboard', { user: req.user.name, email: req.user.email, products });
+
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
 });
-
-
 
 app.get('/users/cart', async (req, res) => {
   try {
@@ -128,23 +124,23 @@ app.get('/users/cart', async (req, res) => {
       ? recommendedMatch[1] 
       : null;
     
-    correlatedName = correlatedMatch ? correlatedMatch[1] : null;
-    reason = reasonMatch ? reasonMatch[1] : "This product complements your purchase."; // Default reason
-    
-    // Ensure recommended product exists in the database
-    recommendedProduct = recommendedName ? allProducts.find(p => p.name === recommendedName) : null;
-    
-    if (!recommendedProduct) {
-      console.warn("⚠️ AI failed to find a matching recommendation. Selecting a random relevant product...");
-      const availableProducts = allProducts.filter(p => 
-        !cartItems.some(cartItem => cartItem.product_id === p.id)
-      );
-      recommendedProduct = availableProducts.length > 0 
-        ? availableProducts[Math.floor(Math.random() * availableProducts.length)]
-        : null;
-      correlatedName = "a related item";
-      reason = "This product is frequently bought with similar items.";
-    }
+      correlatedName = correlatedMatch ? correlatedMatch[1] : null;
+      reason = reasonMatch ? reasonMatch[1] : "This product complements your purchase.";
+      
+      // Ensure recommended product exists in the database
+      recommendedProduct = recommendedName ? allProducts.find(p => p.name === recommendedName) : null;
+      
+      if (!recommendedProduct) {
+        console.warn("⚠️ AI failed to find a matching recommendation. Selecting a random relevant product...");
+        const availableProducts = allProducts.filter(p => 
+          !cartItems.some(cartItem => cartItem.product_id === p.id)
+        );
+        recommendedProduct = availableProducts.length > 0 
+          ? availableProducts[Math.floor(Math.random() * availableProducts.length)]
+          : null;
+        correlatedName = "a related item";
+        reason = "This product is frequently bought with similar items.";
+      }
     
     }
 
@@ -163,25 +159,19 @@ app.get('/users/cart', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
 app.post('/cart/add', async (req, res) => {
   try {
     if (!req.isAuthenticated()) {
-      return res.redirect('/users/login'); // Ensure user is logged in
+      return res.redirect('/users/login');
     }
 
     const { product_id } = req.body;
     const user_id = req.user.id;
-    const quantity = 1; // Always add 1
+    const quantity = 1;
 
     if (!product_id || isNaN(product_id)) {
       req.flash('error_msg', 'Invalid product selection.');
-      return res.redirect('/products'); // Redirect back to product list
+      return res.redirect('/products');
     }
 
     // Check if user has a cart
@@ -212,26 +202,21 @@ app.post('/cart/add', async (req, res) => {
     );
 
     req.flash('success_msg', 'Product added to cart!');
-    res.redirect('/users/cart'); // Redirect to the cart page
+    res.redirect('/users/cart');
   } catch (err) {
     console.error("🚨 Error adding to cart:", err);
     res.status(500).send('Server Error');
   }
 });
 
-
-
-
-
 app.post('/cart/update', async (req, res) => {
   console.log("🚨 Received form data:", req.body);
-
   try {
     if (!req.isAuthenticated()) {
       return res.redirect('/users/login');
     }
 
-    const product_id = parseInt(req.body.product_id, 10); // Convert to integer
+    const product_id = parseInt(req.body.product_id, 10);
     const action = req.body.action;
     const user_id = req.user.id;
 
@@ -269,7 +254,7 @@ app.post('/cart/remove', async (req, res) => {
       return res.redirect('/users/login');
     }
 
-    const product_id = parseInt(req.body.product_id, 10); // Convert to integer
+    const product_id = parseInt(req.body.product_id, 10);
     const user_id = req.user.id;
 
     if (!product_id || isNaN(product_id)) {
@@ -291,7 +276,6 @@ app.post('/cart/remove', async (req, res) => {
   }
 });
 
-
 app.post('/cart/clear', async (req, res) => {
   try {
     if (!req.isAuthenticated()) {
@@ -307,16 +291,12 @@ app.post('/cart/clear', async (req, res) => {
       [user_id]
     );
 
-    res.redirect('/users/cart'); // Redirect to an empty cart page
+    res.redirect('/users/cart');
   } catch (err) {
     console.error("🚨 Error clearing cart:", err);
     res.status(500).send("Server Error");
   }
 });
-
-
-
-
 
 app.get('/users/product/:id', checkNotAuthenticated, async (req, res) => {
   try {

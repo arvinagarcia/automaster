@@ -1,11 +1,3 @@
-:root {
-  --base-color: #ffffff;
-  --base-variant: #1a1a1a;
-  --gray: #f0f0f0;
-  --dark-gray: #cacaca;
-  --accent-color: #ff2c2c;
-}
-
 ::-webkit-scrollbar {
   width: 16px;
 }
@@ -15,9 +7,9 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: var(--base-variant);
+  background-color: #1a1a1a;
   border-radius: 10px;
-  border: 5px solid var(--base-color);
+  border: 5px solid #ffffff;
 }
 
 *,
@@ -34,7 +26,7 @@ body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   font-family: 'Inter', sans-serif;
-  background-color: var(--base-color);
+  background-color: #ffffff;
   padding: 20px;
 }
 
@@ -126,7 +118,6 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* background-color: blue; */
 }
 
 .sidebar .back-icon {
@@ -136,7 +127,6 @@ a {
 }
 
 .sidebar .profile-details-container {
-  /* background-color: lightyellow; */
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -150,7 +140,6 @@ a {
 }
 
 .profile-detail .top {
-  /* background-color: lightgoldenrodyellow; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -176,7 +165,6 @@ a {
   align-self: flex-start;
   padding: 4px 8px 4px 6px;
   border-radius: 8px;
-  /* background-color: lightpink; */
   font-size: 14px;
   transition: background-color 0.3s;
 }

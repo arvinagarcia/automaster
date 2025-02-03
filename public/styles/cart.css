@@ -8,7 +8,6 @@ body {
 /* --- START Navigation Bar --- */
 
 nav {
-  /* background-color: blue; */
   display: flex;
   padding: 20px;
   justify-content: space-between;
@@ -18,7 +17,6 @@ nav {
 
 nav .left {
   display: flex;
-  /* background-color: green; */
   justify-content: center;
   align-items: center;
   gap: 16px;
@@ -36,7 +34,6 @@ nav .left h2 {
 }
 
 nav .middle {
-  /* background-color: red; */
   width: 50%;
 }
 
@@ -69,7 +66,6 @@ nav .middle .search-icon {
 }
 
 nav .right {
-  /* background-color: yellow; */
   display: flex;
   gap: 12px;
 }
@@ -91,9 +87,9 @@ main {
   flex-direction: column;
   margin: 0 auto;
   justify-content: space-between;
+  width: 100%;
   max-width: 800px;
   flex-grow: 1;
-  /* background-color: yellow; */
 }
 
 .ai-recommendation {
@@ -102,8 +98,6 @@ main {
   padding: 16px;
   border-radius: 10px;
   font-size: 14px;
-  /* cursor: pointer; */
-  /* transition: opacity 0.3s; */
 }
 
 .ai-recommendation p {
@@ -148,7 +142,6 @@ main a:hover {
 }
 
 .product {
-  /* background-color: red; */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -173,7 +166,6 @@ main a:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* background-color: lightcoral; */
   width: calc(100% - 60px);
   padding: 6px 0 6px 6px;
   height: 60px;
@@ -260,9 +252,9 @@ main a:hover {
 }
 
 .payment-container {
-  /* background-color: lightblue; */
   display: flex;
   flex-direction: column;
+  width: 100%;
   gap: 24px;
 }
 
@@ -343,7 +335,6 @@ main a:hover {
 .btns-container {
   display: flex;
   width: 100%;
-  /* background-color: lightblue; */
   justify-content: space-between;
   gap: 20px;
 }
@@ -374,7 +365,6 @@ main a:hover {
 }
 
 .details {
-  /* background-color: lightblue; */
   width: 100%;
   font-size: 14px;
   display: flex;
@@ -432,7 +422,6 @@ main a:hover {
 @media screen and (min-width: 460px) {
   main {
     gap: 42px;
-    /* background-color: yellow; */
   }
 
   .products {
@@ -450,7 +439,6 @@ main a:hover {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* background-color: lightcoral; */
     width: calc(100% - 100px);
     padding: 10px 0 10px 10px;
     height: 100px;

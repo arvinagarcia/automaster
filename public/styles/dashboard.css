@@ -5,7 +5,6 @@ body {
 /* --- START Navigation Bar --- */
 
 nav {
-  /* background-color: blue; */
   display: flex;
   padding: 20px;
   justify-content: space-between;
@@ -15,7 +14,6 @@ nav {
 
 nav .left {
   display: flex;
-  /* background-color: green; */
   justify-content: center;
   align-items: center;
   gap: 16px;
@@ -33,7 +31,6 @@ nav .left h2 {
 }
 
 nav .middle {
-  /* background-color: red; */
   width: 50%;
 }
 
@@ -66,7 +63,6 @@ nav .middle .search-icon {
 }
 
 nav .right {
-  /* background-color: yellow; */
   display: flex;
   gap: 12px;
 }
@@ -112,7 +108,6 @@ main {
 }
 
 .product-img-container {
-  /* width: 200px; */
   height: 300px;
   background-color: #f0f0f0;
   border-radius: 10px;

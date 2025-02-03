@@ -11,12 +11,10 @@
   <link rel="icon" type="image/x-icon" href="/static/logo.svg">
   <title>Automaster</title>
   <script defer src="/js/sidebar.js"></script>
-  <script defer src="/js/formatPrice.js"></script>
   <script defer src="/js/search.js"></script>
 </head>
 <body>
   <nav>
-
     <div id="overlay" class="overlay"></div>
     <div id="sidebar" class="sidebar">
       <div class="top-container">
@@ -30,27 +28,18 @@
           <div class="profile-detail">
             <div class="top">
               <label>Name</label>
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-              </svg>               -->
             </div>
             <div class="bottom"><%= user.charAt(0).toUpperCase() + user.slice(1) %></div>
           </div>
           <div class="profile-detail">
             <div class="top">
               <label>Email</label>
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-              </svg>               -->
             </div>
             <div class="bottom"><%= email %></div>
           </div>
           <div class="profile-detail">
             <div class="top">
               <label>Password</label>
-              <!-- <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
-              </svg>               -->
             </div>
             <div class="bottom">••••••••••</div>
           </div>
@@ -63,7 +52,6 @@
         <a href="/users/logout">Logout</a>
       </div>
     </div>
-
     <div class="left">
       <img class="logo" src="/static/logo.svg">
       <h2>AUTOMASTER</h2> 
@@ -87,12 +75,9 @@
       </svg>            
     </div>
   </nav>
-
   <main>
     <h1 class="product-list-heading">Product List</h1>
     <div class="product-list">
-
-      <!-- Loop through products database -->
       <% products.forEach(product => { %>
         <a href="/users/product/<%= product.id %>">
           <div class="product">
@@ -106,9 +91,7 @@
           </div>
         </a>
       <% }) %>
-
     </div>
   </main>
-
 </body>
 </html>

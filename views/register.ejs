@@ -20,7 +20,6 @@
       <p class="body-text">Input the details below to make an account</p>
     </div>
   </div>
-
   <div class="top-right-messages">
     <% if(typeof errors != 'undefined') { %>
       <% errors.forEach(error => { %>
@@ -28,7 +27,6 @@
       <% }) %>
     <%}%>
   </div>
-
   <form action="/users/register" method="POST">
     <div class="form-inputs">
       <div class="form-input">
@@ -48,7 +46,6 @@
         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
       </div>
     </div>
-
     <div class="bottom">
       <input type="submit" value="Register">
       <p>Already registered? <u><a href="/users/login">Log in</a></u></p>

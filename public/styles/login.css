@@ -17,7 +17,6 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  /* background-color: blue; */
 }
 
 .top .logo {
@@ -37,7 +36,6 @@ form {
   align-items: center;
   width: 100%;
   height: 84%;
-  /* background-color: yellow; */
   font-size: 14px;
 }
 
@@ -71,7 +69,6 @@ input::placeholder {
   flex-direction: column;
   align-items: center;
   gap: 24px;
-  /* background-color: pink; */
   width: 100%;
 }
 
