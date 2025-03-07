@@ -110,7 +110,7 @@ app.get('/users/cart', async (req, res) => {
       - Reason: [One brief sentence explaining why they go together]  
     `;    
 
-      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+      const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
       const response = await model.generateContent(prompt);
       
       const aiText = response.response.candidates[0].content.parts[0].text.trim();
@@ -141,7 +141,6 @@ app.get('/users/cart', async (req, res) => {
         correlatedName = "a related item";
         reason = "This product is frequently bought with similar items.";
       }
-    
     }
 
     res.render('cart', { 
